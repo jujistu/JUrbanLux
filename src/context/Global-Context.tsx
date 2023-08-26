@@ -1,14 +1,35 @@
 'use client';
 
-import React, { createContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 type GlobalContextProviderProps = {
   children: React.ReactNode;
 };
 
-type GlobalContextType = {};
+type GlobalContextType = {
+  showNavModal: boolean;
+  setShowNavModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
 export const GlobalContext = createContext<GlobalContextType | null>(null);
 
 export const GlobalState = ({ children }: GlobalContextProviderProps) => {
-  return <GlobalContext.Provider value={{}}>{children}</GlobalContext.Provider>;
+  const [showNavModal, setShowNavModal] = useState<boolean>(false);
+
+  return (
+    <GlobalContext.Provider value={{ showNavModal, setShowNavModal }}>
+      {children}
+    </GlobalContext.Provider>
+  );
+};
+
+export const useGlobalContext = () => {
+  const context = useContext(GlobalContext);
+
+  if (context === null) {
+    throw new Error(
+      'useActiveSectionContext must be used within an ActiveSectionContextProvider'
+    );
+  }
+
+  return context;
 };
