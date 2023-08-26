@@ -64,7 +64,7 @@ export const POST = async (req: Request) => {
       }
     }
   } catch (error) {
-    console.log('Error in new user registration');
+    console.log('Error while new user registration');
 
     return NextResponse.json({
       success: false,

@@ -23,6 +23,8 @@
     "eslint-config-next": "13.4.19",
     "firebase": "^10.3.0",
     "joi": "^17.9.2",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.3",
     "next": "13.4.19",
     "postcss": "8.4.28",

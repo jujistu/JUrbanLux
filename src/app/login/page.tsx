@@ -4,10 +4,51 @@ import InputComponent from '@/components/FormElements/inputComponents/inputCompo
 
 import { loginFormControls } from '@/utils/ConstantData';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
+import { LoginData } from '../api/login/route';
+import { login } from '@/services/login/Login';
+import { useGlobalContext } from '@/context/Global-Context';
+import Cookies from 'js-cookie';
+
+const initialFormData: LoginData = {
+  email: '',
+  password: '',
+};
 
 const Login = () => {
+  const [formData, setFormData] = useState(initialFormData);
+
+  const { isAuthUser, setIsAuthUser, User, setUser } = useGlobalContext();
+
   const router = useRouter(); //for navigation on button tag onClick
+
+  const isFormValid = () => {
+    return formData &&
+      formData.email &&
+      formData.email.trim() !== '' &&
+      formData.password &&
+      formData.password.trim() !== ''
+      ? true
+      : false;
+  };
+
+  const handleLoginSubmit = async () => {
+    const response = await login(formData);
+
+    // console.log(isAuthUser);
+    // console.log(User);
+
+    if (response.success) {
+      //success is from the finalData returned in the login route
+      setIsAuthUser(true);
+      setUser(response?.finalData?.user); //setUser to the user object
+      setFormData(initialFormData);
+      Cookies.set('token', response?.finalData?.token); //store token from loggedIn user
+      localStorage.setItem('user', JSON.stringify(response?.finalData?.user));
+    } else {
+      setIsAuthUser(false);
+    }
+  };
 
   return (
     <div className='bg-white relative mt-10'>
@@ -23,14 +64,26 @@ const Login = () => {
                 {loginFormControls.map((controlItem) =>
                   controlItem.componentType === 'input' ? (
                     <InputComponent
+                      autoComplete={controlItem.type}
                       key={controlItem.id}
                       type={controlItem.type}
                       placeholder={controlItem.placeholder}
                       label={controlItem.label}
+                      value={formData[controlItem.id]}
+                      onChange={(event) => {
+                        setFormData({
+                          ...formData,
+                          [controlItem.id]: event.target.value,
+                        });
+                      }}
                     />
                   ) : null
                 )}
-                <button className='inline-flex  items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide'>
+                <button
+                  disabled={!isFormValid}
+                  className='inline-flex disabled:opacity-50  items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide'
+                  onClick={handleLoginSubmit}
+                >
                   Login
                 </button>
                 <div className='flex flex-col gap-2'>

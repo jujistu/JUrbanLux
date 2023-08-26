@@ -6,6 +6,7 @@ type InputComponentProps = {
   type: string;
   onChange?: (e: any) => void;
   value?: number | string;
+  autoComplete?: string;
 };
 
 const InputComponent = ({
@@ -14,6 +15,7 @@ const InputComponent = ({
   type,
   onChange,
   value,
+  autoComplete,
 }: InputComponentProps) => {
   return (
     <div className='relative'>
@@ -21,6 +23,7 @@ const InputComponent = ({
         {label}
       </p>
       <input
+        autoComplete={autoComplete}
         placeholder={placeholder}
         type={type || 'text'}
         value={value}

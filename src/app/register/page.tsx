@@ -18,7 +18,7 @@ const initialFormData: RegistrationData = {
 const Register = () => {
   const [formData, setFormData] = useState<RegistrationData>(initialFormData);
 
-  const formValid = () => {
+  const isFormValid = () => {
     return formData &&
       formData.name &&
       formData.name.trim() !== '' &&
@@ -32,8 +32,6 @@ const Register = () => {
 
   const handleRegisterSubmit = async () => {
     const data = await registerNewUser(formData);
-    console.log(formData);
-    console.log(data);
   };
 
   return (
@@ -56,6 +54,7 @@ const Register = () => {
                   {registrationFormControls.map((controlItem) =>
                     controlItem.componentType === 'input' ? (
                       <InputComponent
+                        autoComplete={controlItem.type}
                         key={controlItem.id}
                         type={controlItem.type}
                         placeholder={controlItem.placeholder}
@@ -85,7 +84,7 @@ const Register = () => {
                   )}
                   <button
                     onClick={handleRegisterSubmit}
-                    disabled={!formValid()}
+                    disabled={!isFormValid()}
                     className='inline-flex disabled:opacity-50 items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide'
                   >
                     Register
