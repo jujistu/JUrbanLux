@@ -26,6 +26,10 @@ body {
     rgb(var(--background-start-rgb));
 } */
 
+body {
+  margin-top: 5.5rem;
+}
+
 body::-webkit-scrollbar {
   width: 5px;
 }

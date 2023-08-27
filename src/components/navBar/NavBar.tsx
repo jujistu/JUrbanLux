@@ -4,16 +4,23 @@ import React, { Fragment } from 'react';
 import { adminNavOptions, navOptions, styles } from '@/utils/ConstantData';
 import { useGlobalContext } from '@/context/Global-Context';
 import CommonModal from '../commonModal/CommonModal';
+import Cookies from 'js-cookie';
+import { usePathname, useRouter } from 'next/navigation';
 
-const isAdminView: boolean = false;
-const isAuthUser: boolean = true;
-const user = {
-  role: 'admin',
-};
+// const isAdminView: boolean = false;
+// const isAuthUser: boolean = true;
+// const user = {
+//   role: 'admin',
+// };
+
 type NavItemsProp = {
   isModalView: boolean;
+  isAdminView: boolean;
 };
-const NavItems = ({ isModalView = false }: NavItemsProp) => {
+
+const NavItems = ({ isModalView = false, isAdminView }: NavItemsProp) => {
+  const router = useRouter();
+
   return (
     <div
       className={`items-center justify-between w-full md:flex md:w-auto ${
@@ -31,6 +38,7 @@ const NavItems = ({ isModalView = false }: NavItemsProp) => {
               <li
                 className='cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p-0'
                 key={item.id}
+                onClick={() => router.push(item.path)}
               >
                 {item.label}
               </li>
@@ -39,6 +47,7 @@ const NavItems = ({ isModalView = false }: NavItemsProp) => {
               <li
                 className='cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p-0'
                 key={item.id}
+                onClick={() => router.push(item.path)}
               >
                 {item.label}
               </li>
@@ -49,13 +58,37 @@ const NavItems = ({ isModalView = false }: NavItemsProp) => {
 };
 
 export const NavBar = () => {
-  const { showNavModal, setShowNavModal } = useGlobalContext();
+  const router = useRouter();
+
+  const pathName = usePathname(); //for navigating using /path-name
+
+  const isAdminView = pathName.includes('admin-view');
+
+  const {
+    showNavModal,
+    setShowNavModal,
+    User,
+    isAuthUser,
+    setIsAuthUser,
+    setUser,
+  } = useGlobalContext();
+
+  const handleLogout = () => {
+    setIsAuthUser(false);
+    setUser(null);
+    Cookies.remove('token');
+    localStorage.clear();
+    router.push('/');
+  };
 
   return (
     <>
       <nav className='bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200 '>
         <div className='max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4 '>
-          <div className='flex items-center cursor-pointer'>
+          <div
+            onClick={() => router.push('/')}
+            className='flex items-center cursor-pointer'
+          >
             <span className='self-center text-2xl font-semibold text-gray-950 whitespace-nowrap'>
               JuExpress
             </span>
@@ -69,17 +102,34 @@ export const NavBar = () => {
                 <button className={styles.button}>Cart</button>
               </Fragment>
             ) : null}
-            {user?.role === 'admin' ? (
+            {User?.role === 'admin' ? (
               isAdminView ? (
-                <button className={styles.button}>Client View</button>
+                <button
+                  onClick={() => router.push('/')}
+                  className={styles.button}
+                >
+                  Client View
+                </button>
               ) : (
-                <button className={styles.button}>Admin View</button>
+                <button
+                  onClick={() => router.push('/admin-view')}
+                  className={styles.button}
+                >
+                  Admin View
+                </button>
               )
             ) : null}
             {isAuthUser ? (
-              <button className={styles.button}>Logout</button>
+              <button onClick={handleLogout} className={styles.button}>
+                Logout
+              </button>
             ) : (
-              <button className={styles.button}>Login</button>
+              <button
+                onClick={() => router.push('/login')}
+                className={styles.button}
+              >
+                Login
+              </button>
             )}
             <button
               data-collapse-toggle='navbar-sticky'
@@ -105,14 +155,14 @@ export const NavBar = () => {
               </svg>
             </button>
           </div>
-          <NavItems isModalView={false} />
+          <NavItems isModalView={false} isAdminView={isAdminView} />
         </div>
       </nav>
       <CommonModal
         show={showNavModal}
         setShow={setShowNavModal}
         showModalTitle={false}
-        mainContent={<NavItems isModalView={true} />}
+        mainContent={<NavItems isModalView={true} isAdminView={isAdminView} />}
       />
     </>
   );

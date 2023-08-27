@@ -1,12 +1,16 @@
 'use client';
 
 import { registrationFormControls } from '@/utils/ConstantData';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SelectComponent from '@/components/FormElements/selectComponent/SelectComponent';
 import InputComponent from '@/components/FormElements/inputComponents/inputComponent';
 import { registerNewUser } from '@/services/register/Register';
 import { RegistrationData } from '../api/register/route';
-const isRegistered: boolean = false;
+import { toast } from 'react-toastify';
+import { useGlobalContext } from '@/context/Global-Context';
+import { useRouter } from 'next/navigation';
+import { ComponentLevelLoader } from '@/components/Loader/componentLevelLoader/ComponentLevelLoader';
+import { Notification } from '@/components/notification/Notification';
 
 const initialFormData: RegistrationData = {
   name: '',
@@ -17,6 +21,12 @@ const initialFormData: RegistrationData = {
 
 const Register = () => {
   const [formData, setFormData] = useState<RegistrationData>(initialFormData);
+  const [isRegistered, setIsRegistered] = useState<boolean>(false);
+
+  const { setpageLevelLoader, pageLevelLoader, isAuthUser } =
+    useGlobalContext();
+
+  const router = useRouter();
 
   const isFormValid = () => {
     return formData &&
@@ -31,11 +41,31 @@ const Register = () => {
   };
 
   const handleRegisterSubmit = async () => {
+    setpageLevelLoader(true);
     const data = await registerNewUser(formData);
+
+    if (data.success) {
+      toast.success(data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setIsRegistered(true);
+      setpageLevelLoader(false);
+      setFormData(initialFormData);
+    } else {
+      toast.error(data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setpageLevelLoader(false);
+      setFormData(initialFormData);
+    }
   };
 
+  useEffect(() => {
+    if (isAuthUser) router.push('/');
+  }, [isAuthUser, router]);
+
   return (
-    <div className='bg-white relative mt-10'>
+    <div className='bg-white relative'>
       <div className='flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-8 mr-auto xl:px-5 lg:flex-row'>
         <div className='flex flex-col justify-center items-center w-full px-10 lg:flex-row'>
           <div className='w-full mt-10 mx-0 mb-0 relative max-w-2xl lg:mt-0 lg:w-5/12'>
@@ -46,7 +76,10 @@ const Register = () => {
                   : 'Sign up for an account'}
               </p>
               {isRegistered ? (
-                <button className='inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide'>
+                <button
+                  onClick={() => router.push('/login')}
+                  className='inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide'
+                >
                   Login
                 </button>
               ) : (
@@ -87,7 +120,15 @@ const Register = () => {
                     disabled={!isFormValid()}
                     className='inline-flex disabled:opacity-50 items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide'
                   >
-                    Register
+                    {pageLevelLoader ? (
+                      <ComponentLevelLoader
+                        text={'Registering'}
+                        color={'#ffffff'}
+                        loading={pageLevelLoader}
+                      />
+                    ) : (
+                      'Register'
+                    )}
                   </button>
                 </div>
               )}
@@ -95,6 +136,7 @@ const Register = () => {
           </div>
         </div>
       </div>
+      <Notification />
     </div>
   );
 };
