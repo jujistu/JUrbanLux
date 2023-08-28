@@ -118,7 +118,7 @@ const Register = () => {
                   <button
                     onClick={handleRegisterSubmit}
                     disabled={!isFormValid()}
-                    className='inline-flex disabled:opacity-50 items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide'
+                    className='inline-flex rounded-xl disabled:opacity-50 items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide'
                   >
                     {pageLevelLoader ? (
                       <ComponentLevelLoader

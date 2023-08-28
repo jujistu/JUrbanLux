@@ -44,8 +44,11 @@ const Login = () => {
 
   const handleLoginSubmit = async () => {
     setComponentLevelLoader({ loading: true, id: '' });
+
     const response = await login(formData);
+
     console.log(response);
+
     if (response.success) {
       //success is from the finalData returned in the login router
       toast.success(response.message, {
@@ -101,7 +104,7 @@ const Login = () => {
                 )}
                 <button
                   disabled={!isFormValid()}
-                  className='inline-flex disabled:opacity-50  items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide'
+                  className='inline-flex disabled:opacity-50 rounded-xl items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide'
                   onClick={handleLoginSubmit}
                 >
                   {isFormValid() &&
@@ -122,7 +125,7 @@ const Login = () => {
                   <p>New to website ?</p>
                   <button
                     onClick={() => router.push('/register')}
-                    className='inline-flex items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide'
+                    className='inline-flex items-center rounded-xl justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide'
                   >
                     Register
                   </button>

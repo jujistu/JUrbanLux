@@ -1,11 +1,12 @@
 'use client';
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { adminNavOptions, navOptions, styles } from '@/utils/ConstantData';
 import { useGlobalContext } from '@/context/Global-Context';
 import CommonModal from '../commonModal/CommonModal';
 import Cookies from 'js-cookie';
 import { usePathname, useRouter } from 'next/navigation';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 
 // const isAdminView: boolean = false;
 // const isAuthUser: boolean = true;
@@ -16,11 +17,14 @@ import { usePathname, useRouter } from 'next/navigation';
 type NavItemsProp = {
   isModalView: boolean;
   isAdminView: boolean;
+  router: AppRouterInstance;
 };
 
-const NavItems = ({ isModalView = false, isAdminView }: NavItemsProp) => {
-  const router = useRouter();
-
+const NavItems = ({
+  isModalView = false,
+  isAdminView,
+  router,
+}: NavItemsProp) => {
   return (
     <div
       className={`items-center justify-between w-full md:flex md:w-auto ${
@@ -62,7 +66,7 @@ export const NavBar = () => {
 
   const pathName = usePathname(); //for navigating using /path-name
 
-  const isAdminView = pathName.includes('admin-view');
+  const isAdminView = pathName.includes('admin-view'); //to check if it is admin-view
 
   const {
     showNavModal,
@@ -71,7 +75,18 @@ export const NavBar = () => {
     isAuthUser,
     setIsAuthUser,
     setUser,
+    currentUpdatedProduct,
+    setCurrentUpdatedProduct,
   } = useGlobalContext();
+
+  useEffect(() => {
+    if (
+      pathName !== '/admin-view/add-product' &&
+      currentUpdatedProduct !== null
+    )
+      setCurrentUpdatedProduct(null); //if we are not in the add product page and the currentupdatedproductData is still set in the form we set it to null
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathName]);
 
   const handleLogout = () => {
     setIsAuthUser(false);
@@ -155,14 +170,24 @@ export const NavBar = () => {
               </svg>
             </button>
           </div>
-          <NavItems isModalView={false} isAdminView={isAdminView} />
+          <NavItems
+            isModalView={false}
+            isAdminView={isAdminView}
+            router={router}
+          />
         </div>
       </nav>
       <CommonModal
         show={showNavModal}
         setShow={setShowNavModal}
         showModalTitle={false}
-        mainContent={<NavItems isModalView={true} isAdminView={isAdminView} />}
+        mainContent={
+          <NavItems
+            isModalView={true}
+            isAdminView={isAdminView}
+            router={router}
+          />
+        }
       />
     </>
   );

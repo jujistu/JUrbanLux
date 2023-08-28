@@ -56,7 +56,7 @@ export const POST = async (req: Request) => {
         email: checkUser?.email,
         role: checkUser?.role,
       },
-      'default_secret_key',
+      process.env.default_secret_key!,
       { expiresIn: '1d' }
     );
 

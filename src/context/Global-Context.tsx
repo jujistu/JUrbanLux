@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import { ProductData } from '@/app/api/admin/add-product/route';
 
 interface componentLoader {
   loading: boolean;
@@ -31,6 +32,10 @@ type GlobalContextType = {
   setUser: React.Dispatch<React.SetStateAction<any | null>>;
   setIsAuthUser: React.Dispatch<React.SetStateAction<boolean | null>>;
   isAuthUser: boolean | null;
+  currentUpdatedProduct: ProductData | null;
+  setCurrentUpdatedProduct: React.Dispatch<
+    React.SetStateAction<null | ProductData>
+  >;
 };
 export const GlobalContext = createContext<GlobalContextType | null>(null);
 
@@ -44,6 +49,8 @@ export const GlobalState = ({ children }: GlobalContextProviderProps) => {
     });
   const [isAuthUser, setIsAuthUser] = useState<boolean | null>(null);
   const [User, setUser] = useState<User | null>(null);
+  const [currentUpdatedProduct, setCurrentUpdatedProduct] =
+    useState<null | ProductData>(null);
 
   useEffect(() => {
     if (Cookies.get('token') !== undefined) {
@@ -70,6 +77,8 @@ export const GlobalState = ({ children }: GlobalContextProviderProps) => {
         setUser,
         componentLevelLoader,
         setComponentLevelLoader,
+        currentUpdatedProduct,
+        setCurrentUpdatedProduct,
       }}
     >
       {children}

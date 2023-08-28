@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
 
 const connectToDB = async () => {
-  const connectionUrl =
-    'mongodb+srv://obiorapaschalugwu:Qwerty2580@juexpressdb.6nc6mts.mongodb.net/';
+  const connectionUrl = process.env.connectionUrl!;
 
   mongoose
     .connect(connectionUrl)
