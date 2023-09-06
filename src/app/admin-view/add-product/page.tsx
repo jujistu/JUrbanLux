@@ -147,6 +147,7 @@ const AdminAddNewProduct = () => {
       setComponentLevelLoader({ loading: false, id: '' });
       toast.success(response.message, { position: toast.POSITION.TOP_RIGHT });
 
+      setCurrentUpdatedProduct(null);
       setFormData(initialFormData);
       setTimeout(() => {
         //navigate if successful
@@ -216,10 +217,16 @@ const AdminAddNewProduct = () => {
           >
             {componentLevelLoader && componentLevelLoader.loading ? (
               <ComponentLevelLoader
-                text='Adding Product'
+                text={
+                  currentUpdatedProduct !== null
+                    ? 'Updating Product'
+                    : 'Adding Product'
+                }
                 color='#ffffff'
                 loading={componentLevelLoader && componentLevelLoader.loading}
               />
+            ) : currentUpdatedProduct !== null ? (
+              'Update Product'
             ) : (
               'Add Product'
             )}

@@ -1,6 +1,8 @@
 import connectToDB from '@/database/Database';
+import AuthUser from '@/middleware/AuthUser';
 import Product from '@/modelsDB/Product';
 import Joi from 'joi';
+import { JwtPayload } from 'jsonwebtoken';
 import { NextRequest, NextResponse } from 'next/server';
 
 export interface ProductData {
@@ -34,9 +36,9 @@ export const POST = async (req: NextRequest) => {
   try {
     await connectToDB();
 
-    const user = 'admin';
+    const isAuthUser = (await AuthUser(req)) as JwtPayload;
 
-    if (user === 'admin') {
+    if (isAuthUser?.role === 'admin') {
       const extractedData = await req.json();
 
       const {

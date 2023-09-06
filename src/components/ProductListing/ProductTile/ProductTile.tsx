@@ -1,19 +1,21 @@
 'use client';
 
 import { ProductData } from '@/app/api/admin/add-product/route';
+import { cartItemArray, cartItemProp } from '@/context/Global-Context';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-type ProductTileProps = {
+export type ProductProps = {
   item: ProductData;
 };
 
-export const ProductTile = ({ item }: ProductTileProps) => {
+export const ProductTile = ({ item }: ProductProps) => {
   const router = useRouter();
 
   return (
-    // <div onClick={() => router.push(`/product/${item._id}`)}>
-    <div>
+    <div
+      onClick={() => router.push(`/product/${item._id}`)} //details page
+    >
       <div className='overflow-hidden group aspect-auto h-52'>
         <Image
           src={item.imageUrl}

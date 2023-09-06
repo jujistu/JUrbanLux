@@ -1,12 +1,13 @@
 'use client';
 
 import React, { Fragment, useEffect } from 'react';
-import { adminNavOptions, navOptions, styles } from '@/utils/ConstantData';
+import { adminNavOptions, navOptions } from '@/utils/ConstantData';
 import { useGlobalContext } from '@/context/Global-Context';
 import CommonModal from '../commonModal/CommonModal';
 import Cookies from 'js-cookie';
 import { usePathname, useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+import { CartModal } from '../cartModal/CartModal';
 
 // const isAdminView: boolean = false;
 // const isAuthUser: boolean = true;
@@ -42,7 +43,9 @@ const NavItems = ({
               <li
                 className='cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p-0'
                 key={item.id}
-                onClick={() => router.push(item.path)}
+                onClick={() => {
+                  router.push(item.path);
+                }}
               >
                 {item.label}
               </li>
@@ -77,6 +80,8 @@ export const NavBar = () => {
     setUser,
     currentUpdatedProduct,
     setCurrentUpdatedProduct,
+    showCartModal,
+    setShowCartModal,
   } = useGlobalContext();
 
   useEffect(() => {
@@ -108,40 +113,53 @@ export const NavBar = () => {
               JuExpress
             </span>
           </div>
-          <div className='flex md:order-2 gap-2 '>
+          <div className='flex md:order-2 gap-1 '>
             {!isAdminView && isAuthUser ? ( //check if admin or authUser
               <Fragment>
-                <button className='mt-1.5 inline-block px-5 py-3 text-xs font-medium uppercase tracking-wide text-white bg-black'>
+                <button
+                  onClick={() => router.push('/account')}
+                  className='mt-1.5 inline-block py-3 px-3.5 sm:px-5 sm:py-3 text-xs font-medium uppercase tracking-wide text-white bg-black'
+                >
                   Account
                 </button>
-                <button className={styles.button}>Cart</button>
+                <button
+                  onClick={() => {
+                    setShowCartModal(true);
+                  }}
+                  className='mt-1.5 inline-block py-3 px-3.5 sm:px-5 sm:py-3 text-xs font-medium uppercase tracking-wide text-white bg-black'
+                >
+                  Cart
+                </button>
               </Fragment>
             ) : null}
             {User?.role === 'admin' ? (
               isAdminView ? (
                 <button
                   onClick={() => router.push('/')}
-                  className={styles.button}
+                  className='mt-1.5 inline-block py-3 px-3.5 sm:px-5 sm:py-3 text-xs font-medium uppercase tracking-wide text-white bg-black'
                 >
                   Client View
                 </button>
               ) : (
                 <button
                   onClick={() => router.push('/admin-view')}
-                  className={styles.button}
+                  className='mt-1.5 inline-block py-3 px-3.5 sm:px-5 sm:py-3 text-xs font-medium uppercase tracking-wide text-white bg-black'
                 >
                   Admin View
                 </button>
               )
             ) : null}
             {isAuthUser ? (
-              <button onClick={handleLogout} className={styles.button}>
+              <button
+                onClick={handleLogout}
+                className='mt-1.5 inline-block py-3 px-3.5 sm:px-5 sm:py-3 text-xs font-medium uppercase tracking-wide text-white bg-black'
+              >
                 Logout
               </button>
             ) : (
               <button
                 onClick={() => router.push('/login')}
-                className={styles.button}
+                className='mt-1.5 inline-block py-3 px-3.5 sm:px-5 sm:py-3 text-xs font-medium uppercase tracking-wide text-white bg-black'
               >
                 Login
               </button>
@@ -149,10 +167,17 @@ export const NavBar = () => {
             <button
               data-collapse-toggle='navbar-sticky'
               type='button'
-              className='inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600'
+              className={
+                pathName === '/admin-view'
+                  ? 'inline-flex ml-10 justify-between items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600'
+                  : 'inline-flex justify-between items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600'
+              }
               aria-controls='navbar-sticky'
               aria-expanded='false'
-              onClick={() => setShowNavModal(true)}
+              onClick={() => {
+                setShowNavModal(true);
+                if (showNavModal) setShowNavModal(false);
+              }}
             >
               <span className='sr-only'>Open main menu</span>
               <svg
@@ -189,6 +214,7 @@ export const NavBar = () => {
           />
         }
       />
+      {showCartModal && <CartModal />}
     </>
   );
 };

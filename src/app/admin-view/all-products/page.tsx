@@ -2,12 +2,10 @@ import { CommonProductListing } from '@/components/ProductListing/ProductListing
 import { getAllAdminProducts } from '@/services/product/Product';
 
 const AdminAllProducts = async () => {
-  const AllAdminProduct = await getAllAdminProducts();
-
-  console.log(AllAdminProduct);
+  const allAdminProduct = await getAllAdminProducts();
 
   return (
-    <CommonProductListing data={AllAdminProduct && AllAdminProduct.data} />
+    <CommonProductListing data={allAdminProduct && allAdminProduct.data} />
   );
 };
 

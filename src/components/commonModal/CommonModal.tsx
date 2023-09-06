@@ -2,13 +2,13 @@ import React, { Fragment } from 'react';
 import { Transition, Dialog } from '@headlessui/react';
 
 type ModalType = {
-  modalTitle: string;
+  modalTitle?: string;
   mainContent: React.ReactNode;
-  showButtons: boolean;
-  buttonComponent: React.ReactNode;
+  showButtons?: boolean;
+  buttonComponent?: React.ReactNode;
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>> | any;
-  showModalTitle: boolean;
+  showModalTitle?: boolean;
 };
 
 const CommonModal = ({

@@ -23,7 +23,7 @@ const Register = () => {
   const [formData, setFormData] = useState<RegistrationData>(initialFormData);
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
 
-  const { setpageLevelLoader, pageLevelLoader, isAuthUser } =
+  const { setPageLevelLoader, pageLevelLoader, isAuthUser } =
     useGlobalContext();
 
   const router = useRouter();
@@ -41,7 +41,7 @@ const Register = () => {
   };
 
   const handleRegisterSubmit = async () => {
-    setpageLevelLoader(true);
+    setPageLevelLoader(true);
     const data = await registerNewUser(formData);
 
     if (data.success) {
@@ -49,13 +49,13 @@ const Register = () => {
         position: toast.POSITION.TOP_RIGHT,
       });
       setIsRegistered(true);
-      setpageLevelLoader(false);
+      setPageLevelLoader(false);
       setFormData(initialFormData);
     } else {
       toast.error(data.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
-      setpageLevelLoader(false);
+      setPageLevelLoader(false);
       setFormData(initialFormData);
     }
   };
@@ -67,10 +67,10 @@ const Register = () => {
   return (
     <div className='bg-white relative'>
       <div className='flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-8 mr-auto xl:px-5 lg:flex-row'>
-        <div className='flex flex-col justify-center items-center w-full px-10 lg:flex-row'>
+        <div className='flex flex-col justify-center items-center w-full md:px-10 lg:flex-row'>
           <div className='w-full mt-10 mx-0 mb-0 relative max-w-2xl lg:mt-0 lg:w-5/12'>
             <div className='flex flex-col items-center justify-start p-10 bg-white shadow-2xl rounded-xl relative z-10'>
-              <p className='w-full text-4xl font-medium text-center font-serif'>
+              <p className='w-full text-3xl md:text-4xl font-medium text-center font-serif'>
                 {isRegistered
                   ? 'Registration Successful'
                   : 'Sign up for an account'}

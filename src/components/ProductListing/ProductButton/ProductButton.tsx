@@ -3,64 +3,69 @@ import { ProductData } from '@/app/api/admin/add-product/route';
 import { ComponentLevelLoader } from '@/components/Loader/componentLevelLoader/ComponentLevelLoader';
 
 import { useGlobalContext } from '@/context/Global-Context';
-// import { addToCart } from '@/services/cart';
-// import { deleteAProduct } from '@/services/product';
+import { deleteProduct } from '@/services/product/Product';
+
 import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { ProductProps } from '../ProductTile/ProductTile';
+import { addToCart } from '@/services/cart/Cart';
 
-type ProductButtonProps = {
-  item: ProductData;
-};
-
-export const ProductButton = ({ item }: ProductButtonProps) => {
+export const ProductButton = ({ item }: ProductProps) => {
   const pathName = usePathname();
+
   const {
     setCurrentUpdatedProduct,
     setComponentLevelLoader,
     componentLevelLoader,
     User,
-    // showCartModal,
-    // setShowCartModal,
+    showCartModal,
+    setShowCartModal,
   } = useGlobalContext();
+
   const router = useRouter();
 
   const isAdminView = pathName.includes('admin-view');
 
-  async function handleDeleteProduct(item) {
-    //   setComponentLevelLoader({ loading: true, id: item._id });
-    //   const res = await deleteAProduct(item._id);
-    //   if (res.success) {
-    //     setComponentLevelLoader({ loading: false, id: '' });
-    //     toast.success(res.message, {
-    //       position: toast.POSITION.TOP_RIGHT,
-    //     });
-    //     router.refresh();
-    //   } else {
-    //     toast.error(res.message, {
-    //       position: toast.POSITION.TOP_RIGHT,
-    //     });
-    //     setComponentLevelLoader({ loading: false, id: '' });
-    //   }
-  }
+  const handleDeleteProduct = async (item: ProductData) => {
+    setComponentLevelLoader({ loading: true, id: item._id! });
 
-  async function handleAddToCart(getItem) {
-    //   setComponentLevelLoader({ loading: true, id: getItem._id });
-    //   const res = await addToCart({ productID: getItem._id, userID: user._id });
-    //   if (res.success) {
-    //     toast.success(res.message, {
-    //       position: toast.POSITION.TOP_RIGHT,
-    //     });
-    //     setComponentLevelLoader({ loading: false, id: '' });
-    //     setShowCartModal(true);
-    //   } else {
-    //     toast.error(res.message, {
-    //       position: toast.POSITION.TOP_RIGHT,
-    //     });
-    //     setComponentLevelLoader({ loading: false, id: '' });
-    //     setShowCartModal(true);
-    //   }
+    const res = await deleteProduct(item._id!);
+
+    if (res.success) {
+      setComponentLevelLoader({ loading: false, id: '' });
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      router.refresh(); //to refresh and get the latest data
+    } else {
+      toast.error(res.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setComponentLevelLoader({ loading: false, id: '' });
+    }
+  };
+
+  const handleAddToCart = async (getItem: any) => {
+    setComponentLevelLoader({ loading: true, id: getItem._id });
+
+    const res = await addToCart({ productID: getItem._id, userID: User?.id });
+    console.log(res);
+
+    if (res.success) {
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setComponentLevelLoader({ loading: false, id: '' });
+      setShowCartModal(true);
+    } else {
+      toast.error(res.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setComponentLevelLoader({ loading: false, id: '' });
+      setShowCartModal(true);
+    }
     //   console.log(res);
-  }
+  };
 
   return isAdminView ? (
     <>

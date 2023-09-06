@@ -79,3 +79,41 @@ export const deleteProduct = async (id: string) => {
     console.log(error);
   }
 };
+
+//GET product by category using id
+export const productByCategory = async (id: string) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/admin/product-by-category?id=${id}`,
+      {
+        method: 'GET',
+        cache: 'no-store',
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//GET product by id for product details
+export const productById = async (id: any) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/client/product-by-id?id=${id}`,
+      {
+        method: 'GET',
+        cache: 'no-store',
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
