@@ -7,19 +7,19 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { ProductData } from './api/admin/add-product/route';
 
-export default function Home() {
+const Home = () => {
   const { isAuthUser } = useGlobalContext();
 
   const [products, setProducts] = useState<ProductData[]>([]);
   const router = useRouter();
 
-  async function getListOfProducts() {
+  const getListOfProducts = async () => {
     const res = await getAllAdminProducts();
 
     if (res.success) {
       setProducts(res.data);
     }
-  }
+  };
 
   useEffect(() => {
     getListOfProducts();
@@ -196,4 +196,6 @@ export default function Home() {
       </section>
     </main>
   );
-}
+};
+
+export default Home;

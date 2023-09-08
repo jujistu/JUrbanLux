@@ -19,7 +19,7 @@ const InputComponent = ({
 }: InputComponentProps) => {
   return (
     <div className='relative'>
-      <p className='py-0 absolute pr-2  pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium bg-white text-gray-600'>
+      <p className='py-0 absolute px-2 -mt-3 mr-0 mb-0 ml-2 font-medium bg-white text-gray-600'>
         {label}
       </p>
       <input

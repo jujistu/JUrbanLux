@@ -1,7 +1,7 @@
 'use client';
 
 import { ProductData } from '@/app/api/admin/add-product/route';
-import { cartItemArray, cartItemProp } from '@/context/Global-Context';
+
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -40,9 +40,9 @@ export const ProductTile = ({ item }: ProductProps) => {
             className={`mr-3 text-sm font-semibold ${
               item.onSale === 'yes' ? 'line-through' : '' //slash it if it's on sale
             }`}
-          >{`$ ${item.price}`}</p>
+          >{`₦ ${item.price}`}</p>
           {item.onSale === 'yes' ? (
-            <p className='mr-3 text-sm font-semibold text-red-700'>{`$ ${(
+            <p className='mr-3 text-sm font-semibold text-red-700'>{`₦ ${(
               item.price -
               item.price * (item.priceDrop / 100)
             ).toFixed(2)}`}</p>

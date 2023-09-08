@@ -91,7 +91,7 @@ export const ProductDetails = ({ item }: ProductProps) => {
             <h1 className='text-2xl font-bold text-gray-900'>
               {item && item.name}
             </h1>
-            <div className='mt-10 flex flex-col items-center justify-between space-y-4 botder-t border-b py-4 sm:flex-row sm:space-y-0'>
+            <div className='mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
               <div className='flex items-end'>
                 <h1
                   className={`text-3xl font-bold mr-2 ${
@@ -101,7 +101,7 @@ export const ProductDetails = ({ item }: ProductProps) => {
                   ${item && item.price}
                 </h1>
                 {item?.onSale === 'yes' ? (
-                  <h1 className='text-3xl font-bold text-red-700 mr-1.5'>{`$${(
+                  <h1 className='text-3xl font-bold text-red-700 mr-1.5'>{`₦${(
                     item.price -
                     item.price * (item.priceDrop / 100)
                   ).toFixed(2)}`}</h1>

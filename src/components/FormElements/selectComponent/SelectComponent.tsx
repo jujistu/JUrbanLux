@@ -17,7 +17,7 @@ const SelectComponent = ({
 }: SelectComponentProps) => {
   return (
     <div className='relative'>
-      <p className='pt-0 pr-2 pb-0 absolute pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 bg-white'>
+      <p className=' px-2 py-0 absolute -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 bg-white'>
         {label}
       </p>
       <select

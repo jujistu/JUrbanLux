@@ -15,7 +15,7 @@ export const TileComponent = ({ data, selected, onClick }: TileProps) => {
           className={`cursor-pointer ${
             selected &&
             selected.length &&
-            selected.map((item: any) => item.id).indexOf(dataItem.id) !== -1 //meanin there's a value in the array
+            selected.map((item: any) => item.id).indexOf(dataItem.id) !== -1 //meaning there's a value in the array
               ? 'bg-black'
               : ''
           }`}

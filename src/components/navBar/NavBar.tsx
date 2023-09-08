@@ -110,7 +110,7 @@ export const NavBar = () => {
             className='flex items-center cursor-pointer'
           >
             <span className='self-center text-2xl font-semibold text-gray-950 whitespace-nowrap'>
-              JuExpress
+              JUrbanLux
             </span>
           </div>
           <div className='flex md:order-2 gap-1 '>

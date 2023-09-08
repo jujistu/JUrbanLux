@@ -151,7 +151,7 @@ const Checkout = () => {
     //line Item is required in stripeApi route as req
     const createLineItems = cartItem.map((item) => ({
       price_data: {
-        currency: 'usd',
+        currency: 'NGN',
         product_data: {
           images: [item.productID.imageUrl],
           name: item.productID.name,
@@ -240,7 +240,7 @@ const Checkout = () => {
                     alt='Cart Item'
                     className='m-2 h-24 w-28 rounded-md border object-cover object-center'
                   />
-                  <div className='flex w-full flex-col px-4 py-4'>
+                  <div className='flex w-full flex-col p-4'>
                     <span className='font-bold'>
                       {item && item.productID && item.productID.name}
                     </span>
@@ -296,7 +296,7 @@ const Checkout = () => {
             <div className='flex items-center justify-between'>
               <p className='text-sm font-medium text-gray-900'>Subtotal</p>
               <p className='text-lg font-bold text-gray-900'>
-                $
+                ₦
                 {cartItem && cartItem.length
                   ? cartItem.reduce(
                       (total, item) => item.productID.price + total,
@@ -312,7 +312,7 @@ const Checkout = () => {
             <div className='flex items-center justify-between'>
               <p className='text-sm font-medium text-gray-900'>Total</p>
               <p className='text-lg font-bold text-gray-900'>
-                $
+                ₦
                 {cartItem && cartItem.length
                   ? cartItem.reduce(
                       (total, item) => item.productID.price + total,
