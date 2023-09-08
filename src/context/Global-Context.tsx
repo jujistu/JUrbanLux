@@ -195,9 +195,10 @@ export const GlobalState = ({ children }: GlobalContextProviderProps) => {
   //protectedRoutes from unauthenticated
   useEffect(() => {
     if (
-      pathName !== '/register' &&
-      User &&
-      Object.keys(User).length === 0 &&
+      (pathName !== '/register' &&
+        !pathName.includes('product') &&
+        pathName !== '/') ||
+      (User && Object.keys(User).length === 0) ||
       protectedRoutes.includes(pathName)
     ) {
       //if the user has access to the protected route and Unauthenticated,pathName isn't register
