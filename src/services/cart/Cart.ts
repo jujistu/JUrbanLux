@@ -26,7 +26,7 @@ export const addToCart = async (formData: cartItemProp) => {
 export const getAllCartItems = async (id: string) => {
   try {
     const res = await fetch(
-      `http://localhost:3000/api/cart/all-cart-items?id=${id}`,
+      `https://jurbanlux.vercel.app/api/cart/all-cart-items?id=${id}`,
       {
         method: 'GET',
         headers: {

@@ -1,4 +1,4 @@
-E-Commerce Website README
+JUrbanLux https://jurbanlux.vercel.app README
 
 Overview
 This is an E-commerce website built using Next.js and TypeScript. It incorporates various technologies and libraries to create a secure and functional e-commerce platform. Below, you'll find an overview of the technologies and tools used in this project.

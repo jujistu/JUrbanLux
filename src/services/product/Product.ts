@@ -26,7 +26,7 @@ export const addNewProduct = async (formData: ProductData) => {
 export const getAllAdminProducts = async () => {
   try {
     const response = await fetch(
-      'http://localhost:3000/api/admin/all-products',
+      'https://jurbanlux.vercel.app/api/admin/all-products',
       {
         method: 'GET',
         cache: 'no-store', //this to allow it to fetch all and new data
@@ -84,7 +84,7 @@ export const deleteProduct = async (id: string) => {
 export const productByCategory = async (id: string) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/admin/product-by-category?id=${id}`,
+      `https://jurbanlux.vercel.app/api/admin/product-by-category?id=${id}`,
       {
         method: 'GET',
         cache: 'no-store',
@@ -103,7 +103,7 @@ export const productByCategory = async (id: string) => {
 export const productById = async (id: any) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/client/product-by-id?id=${id}`,
+      `https://jurbanlux.vercel.app/api/client/product-by-id?id=${id}`,
       {
         method: 'GET',
         cache: 'no-store',
