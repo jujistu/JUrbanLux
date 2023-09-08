@@ -124,7 +124,7 @@ export const CartDetails = ({
                       : '0'}
                   </p>
                 </div>
-                ₦
+
                 <div className='mt-5 text-center'>
                   <button
                     onClick={() => router.push('/checkout')}
